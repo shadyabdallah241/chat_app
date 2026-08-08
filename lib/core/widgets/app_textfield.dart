@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 class AppTextField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
-
+  final TextEditingController? controller;
   const AppTextField({
     super.key,
     required this.hintText,
     this.isPassword = false,
+    this.controller,
   });
 
   @override
@@ -24,6 +25,7 @@ class _AppTextFieldState extends State<AppTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextField(
+        controller: widget.controller,
         obscureText: widget.isPassword && isPasswordHidden,
         decoration: InputDecoration(
           enabledBorder: OutlineInputBorder(

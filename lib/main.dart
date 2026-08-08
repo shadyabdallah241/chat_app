@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowMaterialGrid: false,
       debugShowCheckedModeBanner: false,
       theme: lightMode,
-      home: const LoginPage(),
+      home: LoginPage(),
     );
   }
 }

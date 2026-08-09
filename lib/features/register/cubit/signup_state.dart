@@ -1,21 +1,21 @@
 import 'package:chat_app/core/models/user.dart';
 import 'package:equatable/equatable.dart';
 
-enum LoginStatus { initial, loading, success, failure }
+enum SignupStatus { initial, loading, success, failure }
 
-class LoginState extends Equatable {
-  final LoginStatus status;
+class SignupState extends Equatable {
+  final SignupStatus status;
   final UserModel? user;
   final String? errorMessage;
 
-  const LoginState({required this.status, this.errorMessage, this.user});
+  const SignupState({required this.status, this.errorMessage, this.user});
 
-  LoginState copyWith({
-    LoginStatus? status,
+  SignupState copyWith({
+    SignupStatus? status,
     String? errorMessage,
     UserModel? user,
   }) {
-    return LoginState(
+    return SignupState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       user: user ?? this.user,

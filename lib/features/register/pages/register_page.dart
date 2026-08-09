@@ -1,15 +1,17 @@
 import 'package:chat_app/core/widgets/app_button.dart';
 import 'package:chat_app/core/widgets/app_textfield.dart';
 import 'package:chat_app/features/home/home_page.dart';
-import 'package:chat_app/features/login/cubit/login_cubit.dart';
-import 'package:chat_app/features/login/cubit/login_state.dart';
+import 'package:chat_app/features/login/pages/login_page.dart';
+import 'package:chat_app/features/register/cubit/signup_cubit.dart';
+import 'package:chat_app/features/register/cubit/signup_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatelessWidget {
+class RegisterPage extends StatelessWidget {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  LoginPage({super.key});
+  final TextEditingController _confirmController = TextEditingController();
+  RegisterPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,21 +19,20 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       body: Center(
-        child: BlocBuilder<LoginCubit, LoginState>(
+        child: BlocBuilder<SignupCubit, SignupState>(
           builder: (context, state) {
-            return BlocListener<LoginCubit, LoginState>(
+            return BlocListener<SignupCubit, SignupState>(
               listener: (context, state) {
-                if (state.status == LoginStatus.success) {
+                if (state.status == .success) {
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(builder: (_) => const HomePage()),
                   );
                 }
-
-                if (state.status == LoginStatus.failure) {
+                if (state.status == .failure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(state.errorMessage ?? 'Login failed'),
+                      content: Text(state.errorMessage ?? "login failed"),
                     ),
                   );
                 }
@@ -42,7 +43,7 @@ class LoginPage extends StatelessWidget {
                   Icon(Icons.message, size: 60, color: theme.primary),
                   SizedBox(height: 25),
                   Text(
-                    "Welcome back, you've been missed",
+                    "Let's create an account for you",
                     style: TextStyle(color: theme.primary),
                   ),
                   SizedBox(height: 12),
@@ -53,35 +54,45 @@ class LoginPage extends StatelessWidget {
                     isPassword: false,
                     controller: _passwordController,
                   ),
+                  SizedBox(height: 12),
+                  AppTextField(
+                    hintText: "Confirm Password",
+                    isPassword: false,
+                    controller: _confirmController,
+                  ),
                   SizedBox(height: 25),
                   AppButton(
-                    text: "Login",
+                    text: "Register",
                     onTap: () {
-                      context.read<LoginCubit>().login(
+                      context.read<SignupCubit>().signup(
                         _emailController.text,
                         _passwordController.text,
                       );
                     },
                   ),
-
                   SizedBox(height: 25),
                   Row(
                     mainAxisAlignment: .center,
                     children: [
                       Text(
-                        "Not a member? ",
+                        "Have an account? ",
                         style: TextStyle(color: theme.primary),
                       ),
                       InkWell(
                         child: Text(
-                          " Register now",
+                          " Login now",
                           style: TextStyle(
                             color: theme.primary,
                             fontWeight: .bold,
                           ),
                         ),
                         onTap: () {
-                          print("Register Page");
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
                         },
                       ),
                     ],

@@ -80,9 +80,7 @@ class LoginPage extends StatelessWidget {
                             fontWeight: .bold,
                           ),
                         ),
-                        onTap: () {
-                          print("Register Page");
-                        },
+                        onTap: () {},
                       ),
                     ],
                   ),

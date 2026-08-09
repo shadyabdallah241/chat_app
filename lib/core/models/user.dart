@@ -1,6 +1,6 @@
 class UserModel {
-  final String password;
+  final String uid;
   final String email;
 
-  const UserModel({required this.password, required this.email});
+  const UserModel({required this.uid, required this.email});
 }

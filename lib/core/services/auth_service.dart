@@ -30,4 +30,7 @@ class AuthService {
       throw Exception(e.code);
     }
   }
+
+  Stream<User?> get authStateChange => _auth.authStateChanges();
+  Future<void> get signout => _auth.signOut();
 }

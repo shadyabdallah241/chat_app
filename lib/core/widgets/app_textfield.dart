@@ -4,11 +4,15 @@ class AppTextField extends StatefulWidget {
   final String hintText;
   final bool isPassword;
   final TextEditingController? controller;
+  final void Function(String)? onChanged;
+  final String? Function(String? value)? validator;
   const AppTextField({
     super.key,
     required this.hintText,
     this.isPassword = false,
     this.controller,
+    this.onChanged,
+    this.validator,
   });
 
   @override
@@ -24,7 +28,9 @@ class _AppTextFieldState extends State<AppTextField> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
-      child: TextField(
+      child: TextFormField(
+        validator: widget.validator,
+        onChanged: widget.onChanged,
         controller: widget.controller,
         obscureText: widget.isPassword && isPasswordHidden,
         decoration: InputDecoration(

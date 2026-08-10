@@ -17,7 +17,11 @@ class AuthCubit extends Cubit<AuthState> {
     _authSubscription = _authRepository.authStateChanges.listen(
       (user) {
         if (user != null) {
-          final userModel = UserModel(email: user.email, uid: user.uid);
+          final userModel = UserModel(
+            email: user.email,
+            uid: user.uid,
+            userName: user.userName,
+          );
 
           emit(Authenticated(userModel));
         } else {

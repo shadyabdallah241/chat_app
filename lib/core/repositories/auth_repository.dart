@@ -13,12 +13,17 @@ class AuthRepository {
 
     final firebaseUser = credential.user!;
 
-    return UserModel(uid: firebaseUser.uid, email: firebaseUser.email!);
+    return UserModel(
+      uid: firebaseUser.uid,
+      email: firebaseUser.email!,
+      userName: firebaseUser.displayName ?? "",
+    );
   }
 
   Future<UserModel> signup({
     required String email,
     required String password,
+    required String userName,
   }) async {
     final credential = await _authService.signUpWithEmailAndPassword(
       email,
@@ -26,7 +31,12 @@ class AuthRepository {
     );
 
     final firebaseUser = credential.user!;
-    return UserModel(uid: firebaseUser.uid, email: firebaseUser.email!);
+    await firebaseUser.updateDisplayName(userName);
+    return UserModel(
+      uid: firebaseUser.uid,
+      email: firebaseUser.email!,
+      userName: firebaseUser.displayName,
+    );
   }
 
   Stream<UserModel?> get authStateChanges {
@@ -34,7 +44,11 @@ class AuthRepository {
       if (user == null) {
         return null;
       }
-      return UserModel(uid: user.uid, email: user.email.toString());
+      return UserModel(
+        uid: user.uid,
+        email: user.email.toString(),
+        userName: user.displayName,
+      );
     });
   }
 

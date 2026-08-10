@@ -2,6 +2,7 @@ import 'package:chat_app/core/auth_gate/auth_gate.dart';
 import 'package:chat_app/core/cubit/auth_cubit.dart';
 import 'package:chat_app/core/di/di.dart';
 import 'package:chat_app/core/theme/light_mode.dart';
+import 'package:chat_app/core/validation/cubit/password_validation_cubit.dart';
 import 'package:chat_app/features/login/cubit/login_cubit.dart';
 import 'package:chat_app/features/register/cubit/signup_cubit.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ void main() async {
         BlocProvider(create: (_) => sl<LoginCubit>()),
         BlocProvider(create: (_) => sl<SignupCubit>()),
         BlocProvider(create: (_) => sl<AuthCubit>()),
+        BlocProvider(create: (_) => sl<PasswordValidationCubit>()),
       ],
       child: const MyApp(),
     ),

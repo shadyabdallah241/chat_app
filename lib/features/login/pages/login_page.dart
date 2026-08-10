@@ -3,6 +3,7 @@ import 'package:chat_app/core/widgets/app_textfield.dart';
 import 'package:chat_app/features/home/home_page.dart';
 import 'package:chat_app/features/login/cubit/login_cubit.dart';
 import 'package:chat_app/features/login/cubit/login_state.dart';
+import 'package:chat_app/features/register/pages/register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -80,7 +81,14 @@ class LoginPage extends StatelessWidget {
                             fontWeight: .bold,
                           ),
                         ),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => RegisterPage(),
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),

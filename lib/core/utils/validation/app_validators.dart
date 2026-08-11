@@ -1,4 +1,4 @@
-import 'package:chat_app/core/validation/cubit/password_validation_state.dart';
+import 'package:chat_app/core/utils/validation/cubit/password_validation_state.dart';
 
 class AppValidators {
   static String? userName(String? value) {

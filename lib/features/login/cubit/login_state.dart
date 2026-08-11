@@ -1,7 +1,7 @@
 import 'package:chat_app/core/models/user.dart';
 import 'package:equatable/equatable.dart';
 
-enum LoginStatus { initial, loading, success, failure }
+enum LoginStatus { initial, loading, success, failure, logout }
 
 class LoginState extends Equatable {
   final LoginStatus status;

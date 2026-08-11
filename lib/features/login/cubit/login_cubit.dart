@@ -1,4 +1,4 @@
-import 'package:chat_app/core/repositories/auth_repository.dart';
+import 'package:chat_app/features/auth/repository/auth_repository.dart';
 import 'package:chat_app/features/login/cubit/login_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -19,6 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   Future<void> signout() async {
-    authRepository.signout();
+    await authRepository.signout();
+    emit(state.copyWith(status: .logout));
   }
 }

@@ -1,5 +1,5 @@
 import 'package:chat_app/core/models/user.dart';
-import 'package:chat_app/core/services/auth_service.dart';
+import 'package:chat_app/core/services/auth/auth_service.dart';
 
 class AuthRepository {
   final AuthService _authService;
@@ -28,6 +28,7 @@ class AuthRepository {
     final credential = await _authService.signUpWithEmailAndPassword(
       email,
       password,
+      userName,
     );
 
     final firebaseUser = credential.user!;
@@ -47,12 +48,12 @@ class AuthRepository {
       return UserModel(
         uid: user.uid,
         email: user.email.toString(),
-        userName: user.displayName,
+        userName: user.displayName.toString(),
       );
     });
   }
 
   Future<void> signout() async {
-    _authService.signout;
+    await _authService.signout;
   }
 }

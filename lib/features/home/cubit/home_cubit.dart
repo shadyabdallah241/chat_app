@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:chat_app/core/models/user.dart';
-import 'package:chat_app/features/home/repository/chat_repository.dart';
+import 'package:chat_app/features/chat/repository/chat_repository.dart';
 import 'package:chat_app/features/home/cubit/home_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

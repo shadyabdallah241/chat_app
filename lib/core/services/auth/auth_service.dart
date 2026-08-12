@@ -10,10 +10,12 @@ class AuthService {
     String password,
   ) async {
     try {
-      return await _auth.signInWithEmailAndPassword(
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
     }
@@ -39,5 +41,10 @@ class AuthService {
   }
 
   Stream<User?> get authStateChange => _auth.authStateChanges();
+
+  User? getCurrentUser() {
+    return _auth.currentUser;
+  }
+
   Future<void> get signout => _auth.signOut();
 }

@@ -1,6 +1,7 @@
 import 'package:chat_app/features/auth/cubit/auth_cubit.dart';
 import 'package:chat_app/features/auth/repository/auth_repository.dart';
-import 'package:chat_app/features/home/repository/chat_repository.dart';
+import 'package:chat_app/features/chat/cubit/chat_cubit.dart';
+import 'package:chat_app/features/chat/repository/chat_repository.dart';
 import 'package:chat_app/core/services/auth/auth_service.dart';
 import 'package:chat_app/core/services/chat/chat_service.dart';
 import 'package:chat_app/core/utils/validation/cubit/password_validation_cubit.dart';
@@ -22,5 +23,6 @@ void setup() {
   sl.registerFactory<PasswordValidationCubit>(() => PasswordValidationCubit());
   sl.registerFactory<AuthCubit>(() => AuthCubit(sl()));
   sl.registerFactory<HomeCubit>(() => HomeCubit(sl()));
+  sl.registerFactory<ChatCubit>(() => ChatCubit(chatRepository: sl()));
   sl.registerFactory<SignupCubit>(() => SignupCubit(sl()));
 }

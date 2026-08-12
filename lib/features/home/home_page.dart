@@ -4,6 +4,7 @@ import 'package:chat_app/features/chat/chat_page.dart';
 import 'package:chat_app/features/home/cubit/home_cubit.dart';
 import 'package:chat_app/features/home/cubit/home_state.dart';
 import 'package:chat_app/features/login/cubit/login_cubit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -11,6 +12,8 @@ class HomePage extends StatelessWidget {
   const HomePage({super.key});
   @override
   Widget build(BuildContext context) {
+    ColorScheme theme = Theme.of(context).colorScheme;
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<HomeCubit>()..getUsers()),
@@ -49,6 +52,11 @@ class HomePage extends StatelessWidget {
                 final user = state.users![index];
                 return GestureDetector(
                   onTap: () {
+                    debugPrint(
+                      "CURRENT USER: ${FirebaseAuth.instance.currentUser!.uid}",
+                    );
+                    debugPrint("SELECTED USER: ${user.uid}");
+                    debugPrint("SELECTED NAME: ${user.userName}");
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -56,12 +64,19 @@ class HomePage extends StatelessWidget {
                       ),
                     );
                   },
-                  child: ListTile(
-                    leading: const CircleAvatar(child: Icon(Icons.person)),
-                    title: Text(user.userName ?? ""),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [Text(user.email)],
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 25),
+                    decoration: BoxDecoration(
+                      color: theme.secondary,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: ListTile(
+                      leading: const CircleAvatar(child: Icon(Icons.person)),
+                      title: Text(user.userName ?? ""),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [Text(user.email)],
+                      ),
                     ),
                   ),
                 );

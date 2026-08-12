@@ -20,6 +20,10 @@ class AuthRepository {
     );
   }
 
+  void getCurrentUser() {
+    _authService.getCurrentUser();
+  }
+
   Future<UserModel> signup({
     required String email,
     required String password,

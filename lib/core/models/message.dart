@@ -27,11 +27,11 @@ class Message {
 
   factory Message.fromFirestore(Map<String, dynamic> map) {
     return Message(
-      senderID: map["senderID"],
-      senderEmail: map["senderEmail"],
-      receiverID: map["receiverID"],
-      message: map["message"],
-      createdAt: map["createdAt"],
+      senderID: map["senderID"] ?? '',
+      senderEmail: map["senderEmail"] ?? '',
+      receiverID: map["receiverID"] ?? '',
+      message: map["message"] ?? '',
+      createdAt: map["createdAt"] ?? Timestamp.now(),
     );
   }
 }

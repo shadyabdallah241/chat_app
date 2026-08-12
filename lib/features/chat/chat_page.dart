@@ -21,7 +21,23 @@ class ChatPage extends StatelessWidget {
       child: BlocBuilder<ChatCubit, ChatStates>(
         builder: (context, state) {
           return Scaffold(
-            appBar: AppBar(title: Text(user.userName ?? "")),
+            appBar: AppBar(
+              title: Column(
+                children: [
+                  Text(user.userName ?? ""),
+                  if (state.status == ChatStatus.typing)
+                    Text(
+                      "typing...",
+                      style: TextStyle(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.8),
+                        fontSize: 12,
+                      ),
+                    ),
+                ],
+              ),
+            ),
             body: Column(
               children: [
                 Expanded(
@@ -71,9 +87,9 @@ class ChatPage extends StatelessWidget {
                                 style: TextStyle(
                                   color: isMe
                                       ? Colors.white
-                                      : Theme.of(context)
-                                            .colorScheme
-                                            .onSecondary,
+                                      : Theme.of(
+                                          context,
+                                        ).colorScheme.onSecondary,
                                 ),
                               ),
                             ],
@@ -92,6 +108,9 @@ class ChatPage extends StatelessWidget {
                         child: AppTextField(
                           hintText: "Enter Your Message",
                           controller: _messageController,
+                          onChanged: (value) {
+                            context.read<ChatCubit>().typing(value);
+                          },
                         ),
                       ),
                       IconButton(
@@ -117,4 +136,3 @@ class ChatPage extends StatelessWidget {
     );
   }
 }
-

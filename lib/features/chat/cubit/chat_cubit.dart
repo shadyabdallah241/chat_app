@@ -36,9 +36,18 @@ class ChatCubit extends Cubit<ChatStates> {
         );
   }
 
+  void typing(String text) {
+    if (text.trim().isEmpty) {
+      emit(state.copyWith(status: ChatStatus.success));
+    } else {
+      emit(state.copyWith(status: ChatStatus.typing));
+    }
+  }
+
   Future<void> sendMessage(String receiverID, String message) async {
     try {
       await _chatRepository.sendMessage(receiverID, message);
+      emit(state.copyWith(status: ChatStatus.success));
     } catch (error) {
       emit(
         state.copyWith(

@@ -1,7 +1,7 @@
 import 'package:chat_app/core/models/message.dart';
 import 'package:equatable/equatable.dart';
 
-enum ChatStatus { initial, loading, success, failure }
+enum ChatStatus { initial, loading, success, failure, typing }
 
 class ChatStates extends Equatable {
   final ChatStatus status;

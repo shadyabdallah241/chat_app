@@ -18,4 +18,12 @@ class ChatRepository {
   Stream<List<UserModel>> getUsers() {
     return _chatService.getUserStream();
   }
+
+  Future<void> sendTypingStatus(String receiverID, bool isTyping) {
+    return _chatService.sendTypingStatus(receiverID, isTyping);
+  }
+
+  Stream<bool> getTypingStream(String otherUserID) {
+    return _chatService.getTypingStream(otherUserID);
+  }
 }

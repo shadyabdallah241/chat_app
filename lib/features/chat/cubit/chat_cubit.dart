@@ -11,11 +11,13 @@ class ChatCubit extends Cubit<ChatStates> {
   final ChatRepository _chatRepository;
 
   StreamSubscription? _messagesSubscription;
+  StreamSubscription<bool>? _typingSubscription;
 
   void getMessages(String otherUserID) {
     emit(state.copyWith(status: ChatStatus.loading));
 
     _messagesSubscription?.cancel();
+    _typingSubscription?.cancel();
 
     _messagesSubscription = _chatRepository
         .getMessages(otherUserID)
@@ -34,19 +36,23 @@ class ChatCubit extends Cubit<ChatStates> {
             );
           },
         );
+
+    _typingSubscription = _chatRepository.getTypingStream(otherUserID).listen(
+      (isTyping) {
+        emit(state.copyWith(isOtherUserTyping: isTyping));
+      },
+    );
   }
 
-  void typing(String text) {
-    if (text.trim().isEmpty) {
-      emit(state.copyWith(status: ChatStatus.success));
-    } else {
-      emit(state.copyWith(status: ChatStatus.typing));
-    }
+  void sendTypingStatus(String receiverID, String text) {
+    final isTyping = text.trim().isNotEmpty;
+    _chatRepository.sendTypingStatus(receiverID, isTyping);
   }
 
   Future<void> sendMessage(String receiverID, String message) async {
     try {
       await _chatRepository.sendMessage(receiverID, message);
+      await _chatRepository.sendTypingStatus(receiverID, false);
       emit(state.copyWith(status: ChatStatus.success));
     } catch (error) {
       emit(
@@ -61,6 +67,7 @@ class ChatCubit extends Cubit<ChatStates> {
   @override
   Future<void> close() {
     _messagesSubscription?.cancel();
+    _typingSubscription?.cancel();
     return super.close();
   }
 }

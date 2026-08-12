@@ -40,6 +40,13 @@ class ChatService {
         .doc(chatRoomID)
         .collection("messages")
         .add(newMessage.toMap());
+
+    await _firestore.collection("chat_rooms").doc(chatRoomID).set(
+      {
+        "typing_${currentUser.uid}": false,
+      },
+      SetOptions(merge: true),
+    );
   }
 
   Stream<List<Message>> getMessages(String otherUserID) {
@@ -63,5 +70,38 @@ class ChatService {
               .map((doc) => Message.fromFirestore(doc.data()))
               .toList(),
         );
+  }
+
+  Future<void> sendTypingStatus(String receiverID, bool isTyping) async {
+    final currentUser = _auth.currentUser;
+    if (currentUser == null) return;
+
+    final ids = [currentUser.uid, receiverID]..sort();
+    final chatRoomID = ids.join("_");
+
+    await _firestore.collection("chat_rooms").doc(chatRoomID).set(
+      {
+        "typing_${currentUser.uid}": isTyping,
+      },
+      SetOptions(merge: true),
+    );
+  }
+
+  Stream<bool> getTypingStream(String otherUserID) {
+    final currentUser = _auth.currentUser;
+    if (currentUser == null) return Stream.value(false);
+
+    final ids = [currentUser.uid, otherUserID]..sort();
+    final chatRoomID = ids.join("_");
+
+    return _firestore
+        .collection("chat_rooms")
+        .doc(chatRoomID)
+        .snapshots()
+        .map((snapshot) {
+      if (!snapshot.exists || snapshot.data() == null) return false;
+      final data = snapshot.data()!;
+      return data["typing_$otherUserID"] == true;
+    });
   }
 }

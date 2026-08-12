@@ -25,7 +25,7 @@ class ChatPage extends StatelessWidget {
               title: Column(
                 children: [
                   Text(user.userName ?? ""),
-                  if (state.status == ChatStatus.typing)
+                  if (state.isOtherUserTyping)
                     Text(
                       "typing...",
                       style: TextStyle(
@@ -109,7 +109,10 @@ class ChatPage extends StatelessWidget {
                           hintText: "Enter Your Message",
                           controller: _messageController,
                           onChanged: (value) {
-                            context.read<ChatCubit>().typing(value);
+                            context.read<ChatCubit>().sendTypingStatus(
+                              user.uid,
+                              value,
+                            );
                           },
                         ),
                       ),

@@ -1,5 +1,6 @@
 import 'package:chat_app/core/di/di.dart';
 import 'package:chat_app/core/widgets/app_drawer.dart';
+import 'package:chat_app/features/chat/chat_page.dart';
 import 'package:chat_app/features/home/cubit/home_cubit.dart';
 import 'package:chat_app/features/home/cubit/home_state.dart';
 import 'package:chat_app/features/login/cubit/login_cubit.dart';
@@ -46,15 +47,22 @@ class HomePage extends StatelessWidget {
               itemCount: state.users?.length ?? 0,
               itemBuilder: (context, index) {
                 final user = state.users![index];
-                return ListTile(
-                  leading: const CircleAvatar(child: Icon(Icons.person)),
-                  title: Text(user["name"] ?? ""),
-                  subtitle: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(user["email"] ?? ""),
-                      Text(user["userName"] ?? "dd"),
-                    ],
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(user: user),
+                      ),
+                    );
+                  },
+                  child: ListTile(
+                    leading: const CircleAvatar(child: Icon(Icons.person)),
+                    title: Text(user.userName ?? ""),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [Text(user.email)],
+                    ),
                   ),
                 );
               },

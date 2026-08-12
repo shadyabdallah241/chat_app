@@ -1,10 +1,11 @@
+import 'package:chat_app/core/models/user.dart';
 import 'package:equatable/equatable.dart';
 
 enum HomeStatus { initial, loading, success, failure }
 
 class HomeStates extends Equatable {
   final HomeStatus status;
-  final List<Map<String, dynamic>>? users;
+  final List<UserModel>? users;
   final String? errorMessage;
 
   const HomeStates({
@@ -15,7 +16,7 @@ class HomeStates extends Equatable {
 
   HomeStates copyWith({
     HomeStatus? status,
-    List<Map<String, dynamic>>? users,
+    List<UserModel>? users,
     String? errorMessage,
   }) {
     return HomeStates(

@@ -6,6 +6,7 @@ import 'package:chat_app/features/chat/cubit/chat_states.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 class ChatPage extends StatelessWidget {
   ChatPage({super.key, required this.user});
@@ -23,6 +24,7 @@ class ChatPage extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(user.userName ?? ""),
                   if (state.isOtherUserTyping)
@@ -46,7 +48,9 @@ class ChatPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final message = state.messages![index];
                       final isMe = message.senderID == currentUserId;
-
+                      final time = DateFormat(
+                        'h:mm a',
+                      ).format(message.createdAt.toDate());
                       return Align(
                         alignment: isMe
                             ? Alignment.centerRight
@@ -82,15 +86,36 @@ class ChatPage extends StatelessWidget {
                                 ),
                               ),
                               const SizedBox(height: 4.0),
-                              Text(
-                                message.message,
-                                style: TextStyle(
-                                  color: isMe
-                                      ? Colors.white
-                                      : Theme.of(
-                                          context,
-                                        ).colorScheme.onSecondary,
-                                ),
+                              Row(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      message.message,
+                                      style: TextStyle(
+                                        color: isMe
+                                            ? Colors.white
+                                            : Theme.of(
+                                                context,
+                                              ).colorScheme.onSecondary,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8.0),
+                                  Text(
+                                    time,
+                                    style: TextStyle(
+                                      fontSize: 10.0,
+                                      color: isMe
+                                          ? Colors.white70
+                                          : Theme.of(context)
+                                                .colorScheme
+                                                .onSecondary
+                                                .withValues(alpha: 0.6),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ],
                           ),

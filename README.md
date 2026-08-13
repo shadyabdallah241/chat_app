@@ -6,17 +6,17 @@ A real-time chat application built with Flutter and Firebase. This project is ba
 
 ## 📸 Screenshots
 
-> 🖼️ _Screenshots coming soon — replace the placeholders below with your actual app screenshots._
+> 🖼️ _Screenshots coming soon — drop your actual app screenshots into `docs/screenshots/` to replace the placeholders below._
 
 | Login | Register | Home |
 |:-----:|:--------:|:----:|
-| ![Login Screen](screenshots/login.png) | ![Register Screen](screenshots/register.png) | ![Home Screen](screenshots/home.png) |
+| ![Login Screen](docs/screenshots/login.png) | ![Register Screen](docs/screenshots/register.png) | ![Home Screen](docs/screenshots/home.png) |
 
 | Chat | Settings (Light) | Settings (Dark) |
 |:----:|:----------------:|:---------------:|
-| ![Chat Screen](screenshots/chat.png) | ![Settings Light](screenshots/settings_light.png) | ![Settings Dark](screenshots/settings_dark.png) |
+| ![Chat Screen](docs/screenshots/chat.png) | ![Settings Light](docs/screenshots/settings_light.png) | ![Settings Dark](docs/screenshots/settings_dark.png) |
 
-> 💡 **To add screenshots:** create a `screenshots/` folder in the project root and drop your `.png` files in.
+> 💡 **To add screenshots:** place your `.png` files inside the `docs/screenshots/` folder.
 
 ---
 
@@ -29,6 +29,7 @@ A real-time chat application built with Flutter and Firebase. This project is ba
 - 👥 **User List** — Browse all registered users (excluding the currently logged-in user)
 - 🚪 **Auth Gate** — Automatically routes users to login or home based on their authentication state
 - 🌙 **Dark / Light Mode** — Fully dynamic theming switchable at runtime from the Settings page
+- 💾 **Persistent Theme** — Selected theme (light/dark) is saved locally with `SharedPreferences` and restored on next launch
 - 🎨 **Theme-consistent Coloring** — All UI colors sourced from `ThemeData`'s `ColorScheme` — no hardcoded colors
 - 📜 **Auto-scroll** — Chat list automatically scrolls to the latest message on open and after sending
 - ⌨️ **Keyboard-aware Scroll** — Chat view scrolls down when the keyboard appears (focus gained)
@@ -57,6 +58,8 @@ Each feature is self-contained under `lib/features/`, with its own `cubit/` and 
 ## 🎨 Theming
 
 The app supports **dynamic Light and Dark themes**, toggled from the **Settings** page via a `CupertinoSwitch`. Theme state is managed by `ThemeCubit` and persisted at the app root level.
+
+> 💾 **Theme Persistence** — The user's theme choice is saved to local storage using `SharedPreferences` (via the [`shared_preferences`](https://pub.dev/packages/shared_preferences) package). On the next app launch, `ThemeCubit` reads the saved preference and restores the correct theme before the first frame renders.
 
 ### Color Palette
 
@@ -100,6 +103,7 @@ Every widget reads colors exclusively from `Theme.of(context).colorScheme` — *
 | [get_it](https://pub.dev/packages/get_it) | Dependency injection |
 | [intl](https://pub.dev/packages/intl) | Date/time formatting |
 | [equatable](https://pub.dev/packages/equatable) | Value equality for states |
+| [shared_preferences](https://pub.dev/packages/shared_preferences) | Persist theme preference locally |
 
 ---
 
@@ -211,6 +215,7 @@ This app was inspired by the following tutorial:
 | Formatted Timestamps | ❌ | ✅ `intl` package (`h:mm a`) |
 | Password Validation Cubit | ❌ | ✅ Live per-requirement feedback |
 | Dark / Light Theme | ❌ | ✅ `ThemeCubit` + `CupertinoSwitch` in Settings |
+| Persistent Theme (SharedPreferences) | ❌ | ✅ Theme saved locally & restored on next launch |
 | Theme-consistent Colors | ❌ | ✅ All UI colors from `ColorScheme` — zero hardcoded `Colors.*` |
 | Auto-scroll to latest message | ❌ | ✅ On open & after send |
 | Keyboard-aware scroll | ❌ | ✅ Scrolls down when keyboard appears |
@@ -265,6 +270,7 @@ Each feature is self-contained under `lib/features/`, with its own `cubit/` and 
 | [get_it](https://pub.dev/packages/get_it) | Dependency injection |
 | [intl](https://pub.dev/packages/intl) | Date/time formatting |
 | [equatable](https://pub.dev/packages/equatable) | Value equality for states |
+| [shared_preferences](https://pub.dev/packages/shared_preferences) | Persist theme preference locally |
 
 ---
 
@@ -371,7 +377,8 @@ This app was inspired by the following tutorial:
 | Dependency Injection | ❌ | ✅ GetIt |
 | Typing Indicator | ❌ | ✅ Real-time Firestore streams |
 | Formatted Timestamps | ❌ | ✅ `intl` package (`h:mm a`) |
-| Password Validation Cubit | ❌ | ✅ |
+| Password Validation Cubit | ❌ | ✅ Live per-requirement feedback |
+| Persistent Theme (SharedPreferences) | ❌ | ✅ Theme saved locally & restored on next launch |
 
 ---
 

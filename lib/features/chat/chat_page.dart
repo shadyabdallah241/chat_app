@@ -114,7 +114,7 @@ class _ChatPageState extends State<ChatPage> {
                                   fontSize: 12.0,
                                   color: isMe
                                       ? Theme.of(context).colorScheme.onPrimary
-                                            .withValues(alpha: 0.7)
+                                            .withValues(alpha: 0.8)
                                       : Theme.of(context)
                                             .colorScheme
                                             .onSecondary

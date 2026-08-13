@@ -1,9 +1,7 @@
 import 'package:chat_app/core/theme/cubit/theme_cubit.dart';
-import 'package:chat_app/core/theme/cubit/theme_state.dart';
 import 'package:chat_app/features/auth/auth_gate/auth_gate.dart';
 import 'package:chat_app/features/auth/cubit/auth_cubit.dart';
 import 'package:chat_app/core/di/di.dart';
-import 'package:chat_app/core/theme/light_mode.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,7 +17,7 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => sl<AuthCubit>()),
-        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => ThemeCubit()..loadTheme()),
       ],
       child: const MyApp(),
     ),

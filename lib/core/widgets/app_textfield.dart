@@ -5,6 +5,7 @@ class AppTextField extends StatefulWidget {
   final bool isPassword;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final FocusNode? focusNode;
   final String? Function(String? value)? validator;
   const AppTextField({
     super.key,
@@ -13,6 +14,7 @@ class AppTextField extends StatefulWidget {
     this.controller,
     this.onChanged,
     this.validator,
+    this.focusNode,
   });
 
   @override
@@ -29,6 +31,7 @@ class _AppTextFieldState extends State<AppTextField> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25),
       child: TextFormField(
+        focusNode: widget.focusNode,
         validator: widget.validator,
         onChanged: widget.onChanged,
         controller: widget.controller,

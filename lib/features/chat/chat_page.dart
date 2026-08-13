@@ -8,17 +8,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class ChatPage extends StatelessWidget {
-  ChatPage({super.key, required this.user});
+class ChatPage extends StatefulWidget {
+  const ChatPage({super.key, required this.user});
   final UserModel user;
+
+  @override
+  State<ChatPage> createState() => _ChatPageState();
+}
+
+class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
+  void scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+    );
+  }
+
+  FocusNode myFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    myFocusNode.addListener(() {
+      if (myFocusNode.hasFocus) {
+        Future.delayed(Duration(milliseconds: 500), () => scrollDown());
+      }
+    });
+    Future.delayed(Duration(milliseconds: 500), () => scrollDown());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    myFocusNode.dispose();
+    _messageController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final currentUserId = FirebaseAuth.instance.currentUser?.uid;
 
     return BlocProvider(
-      create: (context) => sl<ChatCubit>()..getMessages(user.uid),
+      create: (context) => sl<ChatCubit>()..getMessages(widget.user.uid),
       child: BlocBuilder<ChatCubit, ChatStates>(
         builder: (context, state) {
           return Scaffold(
@@ -26,7 +60,7 @@ class ChatPage extends StatelessWidget {
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(user.userName ?? ""),
+                  Text(widget.user.userName ?? ""),
                   if (state.isOtherUserTyping)
                     Text(
                       "typing...",
@@ -44,6 +78,7 @@ class ChatPage extends StatelessWidget {
               children: [
                 Expanded(
                   child: ListView.builder(
+                    controller: _scrollController,
                     itemCount: state.messages?.length ?? 0,
                     itemBuilder: (context, index) {
                       final message = state.messages![index];
@@ -73,14 +108,12 @@ class ChatPage extends StatelessWidget {
                                 : CrossAxisAlignment.start,
                             children: [
                               Text(
-                                isMe ? "You" : (user.userName ?? ""),
+                                isMe ? "You" : (widget.user.userName ?? ""),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12.0,
                                   color: isMe
-                                      ? Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary
+                                      ? Theme.of(context).colorScheme.onPrimary
                                             .withValues(alpha: 0.7)
                                       : Theme.of(context)
                                             .colorScheme
@@ -98,7 +131,9 @@ class ChatPage extends StatelessWidget {
                                       message.message,
                                       style: TextStyle(
                                         color: isMe
-                                            ? Theme.of(context).colorScheme.onPrimary
+                                            ? Theme.of(
+                                                context,
+                                              ).colorScheme.onPrimary
                                             : Theme.of(
                                                 context,
                                               ).colorScheme.onSecondary,
@@ -142,11 +177,12 @@ class ChatPage extends StatelessWidget {
                     children: [
                       Expanded(
                         child: AppTextField(
+                          focusNode: myFocusNode,
                           hintText: "Enter Your Message",
                           controller: _messageController,
                           onChanged: (value) {
                             context.read<ChatCubit>().sendTypingStatus(
-                              user.uid,
+                              widget.user.uid,
                               value,
                             );
                           },
@@ -156,9 +192,10 @@ class ChatPage extends StatelessWidget {
                         onPressed: () {
                           if (_messageController.text.trim().isNotEmpty) {
                             context.read<ChatCubit>().sendMessage(
-                              user.uid,
+                              widget.user.uid,
                               _messageController.text.trim(),
                             );
+                            scrollDown();
                             _messageController.clear();
                           }
                         },

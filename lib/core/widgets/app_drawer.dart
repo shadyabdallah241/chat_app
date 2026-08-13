@@ -35,6 +35,7 @@ class AppDrawer extends StatelessWidget {
               title: Text("S E T T I N G S"),
               leading: Icon(Icons.settings),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SettingsPage()),

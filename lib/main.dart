@@ -1,3 +1,5 @@
+import 'package:chat_app/core/theme/cubit/theme_cubit.dart';
+import 'package:chat_app/core/theme/cubit/theme_state.dart';
 import 'package:chat_app/features/auth/auth_gate/auth_gate.dart';
 import 'package:chat_app/features/auth/cubit/auth_cubit.dart';
 import 'package:chat_app/core/di/di.dart';
@@ -14,7 +16,13 @@ void main() async {
   setup();
 
   runApp(
-    BlocProvider(create: (context) => sl<AuthCubit>(), child: const MyApp()),
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<AuthCubit>()),
+        BlocProvider(create: (context) => ThemeCubit()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -23,10 +31,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: lightMode,
-      home: const AuthGate(),
+    return BlocBuilder<ThemeCubit, ThemeData>(
+      builder: (context, theme) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: theme,
+          home: const AuthGate(),
+        );
+      },
     );
   }
 }

@@ -78,7 +78,10 @@ class ChatPage extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                   fontSize: 12.0,
                                   color: isMe
-                                      ? Colors.white70
+                                      ? Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary
+                                            .withValues(alpha: 0.7)
                                       : Theme.of(context)
                                             .colorScheme
                                             .onSecondary
@@ -95,7 +98,7 @@ class ChatPage extends StatelessWidget {
                                       message.message,
                                       style: TextStyle(
                                         color: isMe
-                                            ? Colors.white
+                                            ? Theme.of(context).colorScheme.onPrimary
                                             : Theme.of(
                                                 context,
                                               ).colorScheme.onSecondary,
@@ -108,7 +111,10 @@ class ChatPage extends StatelessWidget {
                                     style: TextStyle(
                                       fontSize: 10.0,
                                       color: isMe
-                                          ? Colors.white70
+                                          ? Theme.of(context)
+                                                .colorScheme
+                                                .onPrimary
+                                                .withValues(alpha: 0.7)
                                           : Theme.of(context)
                                                 .colorScheme
                                                 .onSecondary
@@ -126,7 +132,12 @@ class ChatPage extends StatelessWidget {
                 ),
 
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(
+                    bottom: 25,
+                    left: 8,
+                    right: 8,
+                    top: 8,
+                  ),
                   child: Row(
                     children: [
                       Expanded(

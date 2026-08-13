@@ -247,16 +247,17 @@ class PasswordRequirement extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context).colorScheme;
     return Row(
       spacing: 8,
       children: [
         Icon(
           isValid ? Icons.check_circle_rounded : Icons.radio_button_unchecked,
-          color: isValid ? Colors.green : Colors.grey,
+          color: isValid ? theme.tertiary : theme.primary,
         ),
         Text(
           text,
-          style: TextStyle(color: isValid ? Colors.green : Colors.grey),
+          style: TextStyle(color: isValid ? theme.tertiary : theme.primary),
         ),
       ],
     );

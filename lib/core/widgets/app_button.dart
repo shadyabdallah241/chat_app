@@ -19,7 +19,15 @@ class AppButton extends StatelessWidget {
           color: theme.secondary,
           borderRadius: BorderRadius.circular(8),
         ),
-        child: Center(child: Text(text, style: TextStyle())),
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+              color: theme.inversePrimary,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
       ),
     );
   }

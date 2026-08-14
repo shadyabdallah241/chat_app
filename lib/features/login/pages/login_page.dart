@@ -57,11 +57,12 @@ class LoginPage extends StatelessWidget {
                     SizedBox(height: 12),
                     AppTextField(
                       hintText: "Password",
-                      isPassword: false,
+                      isPassword: true,
                       controller: _passwordController,
                     ),
                     SizedBox(height: 25),
                     AppButton(
+                      hasLoading: state.status == LoginStatus.loading,
                       text: "Login",
                       onTap: () {
                         context.read<LoginCubit>().login(

@@ -19,6 +19,7 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  bool hasLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -184,16 +185,21 @@ class _RegisterPageState extends State<RegisterPage> {
 
                           const SizedBox(height: 25),
 
-                          AppButton(
-                            text: "Register",
-                            onTap: () {
-                              if (_formKey.currentState!.validate()) {
-                                context.read<SignupCubit>().signup(
-                                  _emailController.text,
-                                  _passwordController.text,
-                                  _userNameController.text,
-                                );
-                              }
+                          BlocBuilder<SignupCubit, SignupState>(
+                            builder: (context, state) {
+                              return AppButton(
+                                hasLoading: state.status == .loading,
+                                text: "Register",
+                                onTap: () {
+                                  if (_formKey.currentState!.validate()) {
+                                    context.read<SignupCubit>().signup(
+                                      _emailController.text,
+                                      _passwordController.text,
+                                      _userNameController.text,
+                                    );
+                                  }
+                                },
+                              );
                             },
                           ),
 

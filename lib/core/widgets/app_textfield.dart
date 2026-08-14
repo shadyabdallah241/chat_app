@@ -22,7 +22,7 @@ class AppTextField extends StatefulWidget {
 }
 
 class _AppTextFieldState extends State<AppTextField> {
-  bool isPasswordHidden = false;
+  bool isPasswordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class _AppTextFieldState extends State<AppTextField> {
                     });
                   },
                   child: Icon(
-                    isPasswordHidden ? Icons.visibility : Icons.visibility_off,
+                    !isPasswordHidden ? Icons.visibility : Icons.visibility_off,
                     color: theme.primary,
                   ),
                 )
